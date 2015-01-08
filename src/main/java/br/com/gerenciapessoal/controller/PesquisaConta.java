@@ -32,6 +32,7 @@ public class PesquisaConta implements Serializable {
     private Bancos bancos;
 
     private final ContaFilter contaFilter;
+    private Conta contaSelecionada;
 
     private List<Conta> listaConta;
 
@@ -46,8 +47,18 @@ public class PesquisaConta implements Serializable {
             listaBanco = bancos.listaBanco();
         }
     }
-    
-    public void pesquisarConta(){
+
+    public void ecluirConta() {
+        contas.remover(this.contaSelecionada);
+        listaConta.remove(this.contaSelecionada);
+
+        FacesUtil.addInfoMessage("A conta " + contaSelecionada.getAgencia() + "-"
+                + contaSelecionada.getDvConta() + "-"
+                + contaSelecionada.getBanco().getNome()
+                + ", foi excluida com suecsso");
+    }
+
+    public void pesquisarConta() {
         listaConta = contas.pesquisarConta(contaFilter);
     }
 
@@ -61,6 +72,14 @@ public class PesquisaConta implements Serializable {
 
     public List<Banco> getListaBanco() {
         return listaBanco;
+    }
+
+    public Conta getContaSelecionada() {
+        return contaSelecionada;
+    }
+
+    public void setContaSelecionada(Conta contaSelecionada) {
+        this.contaSelecionada = contaSelecionada;
     }
 
 }

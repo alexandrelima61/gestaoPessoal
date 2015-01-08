@@ -16,7 +16,7 @@
             </f:metadata>
         </f:metadata>
 
-        <h:form id="frmPesqBanco">
+        <h:form id="frmPesqConta">
             <h1>Pesquisa Banco</h1>
             <p:messages autoUpdate="true" closable="true"/>
 
@@ -69,7 +69,7 @@
 
             </p:panelGrid>
 
-            <p:dataTable id="pesquisaBanco" paginator="true" paginatorAlwaysVisible="false"
+            <p:dataTable id="pesquisaConta" paginator="true" paginatorAlwaysVisible="false"
                          paginatorPosition="bottom" rows="20" var="conta" 
                          value="#{pesquisaConta.listaConta}"
                          emptyMessage="Nenhum conta encontrado." style="margin-top: 20px;">
@@ -102,16 +102,32 @@
                 <p:column style="width: 100px; text-align: center">
                     <p:button  icon="ui-icon-pencil" title="Editar" 
                                outcome="/conta/CadastroConta">
+                        <f:param name="conta" value="#{conta.id}" />
                     </p:button>
 
                     <p:commandButton icon="ui-icon-trash" title="Excluir" 
-                                     process="@this" >
+                                     update=":frmPesqConta:confirmeExclusaoContaDialog"
+                                     process="@this" oncomplete="confirmeExclusaoConta.show()">
+                        <f:setPropertyActionListener target="#{pesquisaConta.contaSelecionada}"
+                                                     value="#{conta}"/>
 
                     </p:commandButton>
 
                 </p:column>
 
             </p:dataTable>
+
+            <p:confirmDialog header="Excluir Conta"
+                             message="Tem certeza que deseja excluir a conta 
+                             #{pesquisaConta.contaSelecionada.conta} - #{pesquisaConta.contaSelecionada.dvConta} 
+                             #{pesquisaConta.contaSelecionada.banco.nome}?"
+                             widgetVar="confirmeExclusaoConta" id="confirmeExclusaoContaDialog">
+                <p:button value="Não" onclick="confirmeExclusaoConta.hide();
+                        return false;"/>
+                <p:commandButton value="Sim" oncomplete="confirmeExclusaoConta.hide();"                                 
+                                 process="@this" update=":frmPesqConta:pesquisaConta"
+                                 action="#{pesquisaConta.ecluirConta}"/>
+            </p:confirmDialog>
         </h:form>
 
     </ui:define>

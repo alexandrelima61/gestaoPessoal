@@ -11,7 +11,7 @@
 
     <ui:define name="corpo">
         <f:metadata>
-            <f:viewParam name="dymmy"/>
+            <f:viewParam name="conta" value="#{cadastrarConta.conta}"/>
             <f:event listener="#{cadastrarConta.inicializaBanco}" 
                      type="preRenderView"/>
         </f:metadata>

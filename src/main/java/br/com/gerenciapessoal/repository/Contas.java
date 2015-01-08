@@ -8,12 +8,15 @@ package br.com.gerenciapessoal.repository;
 import br.com.gerenciapessoal.model.Conta;
 import br.com.gerenciapessoal.model.Usuario;
 import br.com.gerenciapessoal.repository.filter.ContaFilter;
+import br.com.gerenciapessoal.util.jpa.Transactional;
+import br.com.gerenciapessoal.util.service.NegocioException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -56,7 +59,7 @@ public class Contas implements Serializable {
         Criteria criteria = session.createCriteria(Conta.class)
                 .createAlias("banco", "b")
                 .createAlias("usuario", "u");
-        
+
         Usuario u = manager.find(Usuario.class, 1L);
 
         criteria.add(Restrictions.eq("u.id", u.getId()));
@@ -88,5 +91,17 @@ public class Contas implements Serializable {
         //return criteria.addOrder(Order.asc("id")).list();
         return criteria.addOrder(Order.desc("id")).list();
 
+    }
+
+    @Transactional
+    public void remover(Conta conta) {
+        try {
+            conta = porId(conta.getId());
+            manager.remove(conta);
+            manager.flush();
+
+        } catch (PersistenceException e) {
+            throw new NegocioException("Esta Conta não pode ser excluido!");
+        }
     }
 }
