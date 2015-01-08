@@ -1,0 +1,114 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Pesquisar Banco</ui:define>
+
+    <ui:define name="corpo"> 
+        <f:metadata>
+            <f:metadata>
+                <f:viewParam name="dymmy"/>
+                <f:event listener="#{pesquisaConta.inicializaBancoPes}" 
+                         type="preRenderView"/>
+            </f:metadata>
+        </f:metadata>
+
+        <h:form id="frmPesqBanco">
+            <h1>Pesquisa Banco</h1>
+            <p:messages autoUpdate="true" closable="true"/>
+
+            <p:toolbar styleClass="toolbar">
+                <p:toolbarGroup>
+                    <p:commandButton value="Pesquisar" action="#{pesquisaConta.pesquisarConta}"
+                                     icon="ui-icon-search" update="@form" />
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:button value="Novo" icon="ui-icon-circle-plus"
+                              outcome="/conta/CadastroConta" />
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:panelGrid columns="2" columnClasses="rotulo,campo" 
+                         id="cadContasPagar" styleClass="painel"
+                         style="margin-top: 15px;">
+
+                <p:outputLabel value="Banco" for="banco"/>
+                <p:selectOneMenu id="banco" 
+                                 value="#{pesquisaConta.contaFilter.banco}">
+                    <f:selectItem itemLabel="Selecione"/>
+                    <f:selectItems var="banco"
+                                   value="#{pesquisaConta.listaBanco}"
+                                   itemValue="#{banco}" itemLabel="#{banco.nome}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Agencia" for="agencia"/>
+                <p:inputText id="agencia" size="20" maxlength="5"
+                             value="#{pesquisaConta.contaFilter.agc}"/>
+
+                <p:outputLabel value="Digito Agencia" for="digiAgencia"/>
+                <p:inputText id="digiAgencia" size="20" maxlength="1"
+                             value="#{pesquisaConta.contaFilter.dvagc}"/>
+
+                <p:outputLabel value="Conta" for="conta"/>
+                <p:inputText id="conta" size="20" maxlength="6"
+                             value="#{pesquisaConta.contaFilter.conta}"/>
+
+                <p:outputLabel value="Digito Conta" for="digiConta"/>
+                <p:inputText id="digiConta" size="20" maxlength="1"
+                             value="#{pesquisaConta.contaFilter.dvconta}"/>
+
+                <p:outputLabel value="Tipo Conta" for="tpConta"/>
+                <p:selectOneMenu id="tpConta" value="#{pesquisaConta.contaFilter.tipoConta}">
+                    <f:selectItem itemLabel="Selecione" />
+                    <f:selectItems value="#{cadastrarConta.tipoConta}" var="TipoConta"
+                                   itemValue="#{tipoConta}" itemLabel="#{tipoConta.descicao}" />
+                </p:selectOneMenu>
+
+            </p:panelGrid>
+
+            <p:dataTable id="pesquisaBanco" paginator="true" paginatorAlwaysVisible="false"
+                         paginatorPosition="bottom" rows="20" var="conta" 
+                         value="#{pesquisaConta.listaConta}"
+                         emptyMessage="Nenhum conta encontrado." style="margin-top: 20px;">
+
+                <p:column headerText="Banco" style="text-align: left;width: 100px">
+                    <h:outputText value="#{conta.banco.nome}"/>
+                </p:column>
+                <p:column headerText="Agencia" style="text-align: left;width: 100px">
+                    <h:outputText value="#{conta.agc}"/>
+                </p:column>
+                <p:column headerText="Digito Agencia" style="text-align: left;width: 100px">
+                    <h:outputText value="#{conta.dvagc}"/>
+                </p:column>
+                <p:column headerText="Conta" style="text-align: left;width: 100px">
+                    <h:outputText value="#{conta.conta}"/>
+                </p:column>
+
+                <p:column headerText="Digito Conta" style="text-align: left;width: 100px">
+                    <h:outputText value="#{conta.dvconta}"/>
+                </p:column>
+
+                <p:column headerText="Tipo Conta" style="text-align: left;width: 100px">
+                    <h:outputText value="#{conta.tipoConta.descicao}"/>
+                </p:column>
+
+                <p:column style="width: 100px; text-align: center">
+                    <p:button  icon="ui-icon-pencil" title="Editar" 
+                               outcome="/conta/CadastroConta">
+                    </p:button>
+
+                    <p:commandButton icon="ui-icon-trash" title="Excluir" 
+                                     process="@this" >
+
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+
+    </ui:define>
+</ui:composition>
