@@ -54,10 +54,35 @@ public class Contas implements Serializable {
         Session session = this.manager.unwrap(Session.class);
 
         Criteria criteria = session.createCriteria(Conta.class)
-                .createAlias("banco", "b");
+                .createAlias("banco", "b")
+                .createAlias("usuario", "u");
+        
+        Usuario u = manager.find(Usuario.class, 1L);
+
+        criteria.add(Restrictions.eq("u.id", u.getId()));
 
         if (contaFilter.getBanco() != null) {
-            criteria.add(Restrictions.ge("b.id", contaFilter.getBanco().getId()));
+            criteria.add(Restrictions.eq("b.id", contaFilter.getBanco().getId()));
+        }
+
+        if (contaFilter.getAgencia() != null) {
+            criteria.add(Restrictions.eq("agencia", contaFilter.getAgencia()));
+        }
+
+        if (contaFilter.getDvAgencia() != null) {
+            criteria.add(Restrictions.eq("dvAgencia", contaFilter.getDvAgencia()));
+        }
+
+        if (contaFilter.getConta() != null) {
+            criteria.add(Restrictions.eq("conta", contaFilter.getConta()));
+        }
+
+        if (contaFilter.getDvConta() != null) {
+            criteria.add(Restrictions.eq("dvConta", contaFilter.getDvConta()));
+        }
+
+        if (contaFilter.getTipoConta() != null) {
+            criteria.add(Restrictions.eq("tipoConta", contaFilter.getTipoConta()));
         }
 
         //return criteria.addOrder(Order.asc("id")).list();

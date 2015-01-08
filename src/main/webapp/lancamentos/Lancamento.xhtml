@@ -72,7 +72,7 @@
                     <f:selectItem itemLabel="Selecione"/>
                     <f:selectItems var="conta"
                                    value="#{cadastroLancamentoBean.contaLista}"
-                                   itemValue="#{conta}" itemLabel="#{conta.agc}/#{conta.conta}-#{conta.dvconta} #{conta.banco.nome}"/>
+                                   itemValue="#{conta}" itemLabel="#{conta.agencia}/#{conta.conta}-#{conta.dvConta} #{conta.banco.nome}"/>
                 </p:selectOneMenu>
 
                 <p:outputLabel value="Data de Emissão" for="dataEmissao"/>

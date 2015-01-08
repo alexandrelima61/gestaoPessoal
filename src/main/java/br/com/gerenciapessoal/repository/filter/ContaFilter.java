@@ -7,9 +7,7 @@ package br.com.gerenciapessoal.repository.filter;
 
 import br.com.gerenciapessoal.enumeradores.TipoConta;
 import br.com.gerenciapessoal.model.Banco;
-import br.com.gerenciapessoal.model.Usuario;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
@@ -19,27 +17,27 @@ import javax.persistence.Enumerated;
  */
 public class ContaFilter implements Serializable {
 
-    private Integer agc;
-    private Integer dvagc;
+    private Integer agencia;
+    private Integer dvAgencia;
     private Integer conta;
-    private Integer dvconta;
+    private Integer dvConta;
     private TipoConta tipoConta;
     private Banco banco;
 
-    public Integer getAgc() {
-        return agc;
+    public Integer getAgencia() {
+        return agencia;
     }
 
-    public void setAgc(Integer agc) {
-        this.agc = agc;
+    public void setAgencia(Integer agencia) {
+        this.agencia = agencia;
     }
 
-    public Integer getDvagc() {
-        return dvagc;
+    public Integer getDvAgencia() {
+        return dvAgencia;
     }
 
-    public void setDvagc(Integer dvagc) {
-        this.dvagc = dvagc;
+    public void setDvAgencia(Integer dvAgencia) {
+        this.dvAgencia = dvAgencia;
     }
 
     public Integer getConta() {
@@ -50,12 +48,12 @@ public class ContaFilter implements Serializable {
         this.conta = conta;
     }
 
-    public Integer getDvconta() {
-        return dvconta;
+    public Integer getDvConta() {
+        return dvConta;
     }
 
-    public void setDvconta(Integer dvconta) {
-        this.dvconta = dvconta;
+    public void setDvConta(Integer dvConta) {
+        this.dvConta = dvConta;
     }
 
     public TipoConta getTipoConta() {

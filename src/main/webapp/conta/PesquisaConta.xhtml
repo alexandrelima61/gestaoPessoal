@@ -46,11 +46,11 @@
 
                 <p:outputLabel value="Agencia" for="agencia"/>
                 <p:inputText id="agencia" size="20" maxlength="5"
-                             value="#{pesquisaConta.contaFilter.agc}"/>
+                             value="#{pesquisaConta.contaFilter.agencia}"/>
 
                 <p:outputLabel value="Digito Agencia" for="digiAgencia"/>
                 <p:inputText id="digiAgencia" size="20" maxlength="1"
-                             value="#{pesquisaConta.contaFilter.dvagc}"/>
+                             value="#{pesquisaConta.contaFilter.dvAgencia}"/>
 
                 <p:outputLabel value="Conta" for="conta"/>
                 <p:inputText id="conta" size="20" maxlength="6"
@@ -58,7 +58,7 @@
 
                 <p:outputLabel value="Digito Conta" for="digiConta"/>
                 <p:inputText id="digiConta" size="20" maxlength="1"
-                             value="#{pesquisaConta.contaFilter.dvconta}"/>
+                             value="#{pesquisaConta.contaFilter.dvConta}"/>
 
                 <p:outputLabel value="Tipo Conta" for="tpConta"/>
                 <p:selectOneMenu id="tpConta" value="#{pesquisaConta.contaFilter.tipoConta}">
@@ -74,21 +74,25 @@
                          value="#{pesquisaConta.listaConta}"
                          emptyMessage="Nenhum conta encontrado." style="margin-top: 20px;">
 
+                <p:column headerText="Numero Banco" style="text-align: left;width: 40px">
+                    <h:outputText value="#{conta.banco.numBanco}"/>
+                </p:column>
+
                 <p:column headerText="Banco" style="text-align: left;width: 100px">
                     <h:outputText value="#{conta.banco.nome}"/>
                 </p:column>
                 <p:column headerText="Agencia" style="text-align: left;width: 100px">
-                    <h:outputText value="#{conta.agc}"/>
+                    <h:outputText value="#{conta.agencia}"/>
                 </p:column>
                 <p:column headerText="Digito Agencia" style="text-align: left;width: 100px">
-                    <h:outputText value="#{conta.dvagc}"/>
+                    <h:outputText value="#{conta.dvAgencia}"/>
                 </p:column>
                 <p:column headerText="Conta" style="text-align: left;width: 100px">
                     <h:outputText value="#{conta.conta}"/>
                 </p:column>
 
                 <p:column headerText="Digito Conta" style="text-align: left;width: 100px">
-                    <h:outputText value="#{conta.dvconta}"/>
+                    <h:outputText value="#{conta.dvConta}"/>
                 </p:column>
 
                 <p:column headerText="Tipo Conta" style="text-align: left;width: 100px">

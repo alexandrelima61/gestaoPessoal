@@ -29,10 +29,10 @@ import javax.validation.constraints.NotNull;
 public class Conta implements Serializable {
 
     private Long id;
-    private Integer agc;
-    private Integer dvagc;
+    private Integer agencia;
+    private Integer dvAgencia;
     private Integer conta;
-    private Integer dvconta;
+    private Integer dvConta;
     private TipoConta tipoConta;
     private Banco banco;
     private BigDecimal saldo;
@@ -50,21 +50,21 @@ public class Conta implements Serializable {
 
     @NotNull
     @Column(name = "agecia", nullable = false, length = 5)
-    public Integer getAgc() {
-        return agc;
+    public Integer getAgencia() {
+        return agencia;
     }
 
-    public void setAgc(Integer agc) {
-        this.agc = agc;
+    public void setAgencia(Integer agencia) {
+        this.agencia = agencia;
     }
 
     @Column(name = "digito_agencia", length = 1)
-    public Integer getDvagc() {
-        return dvagc;
+    public Integer getDvAgencia() {
+        return dvAgencia;
     }
 
-    public void setDvagc(Integer dvagc) {
-        this.dvagc = dvagc;
+    public void setDvAgencia(Integer dvAgencia) {
+        this.dvAgencia = dvAgencia;
     }
 
     @NotNull
@@ -78,12 +78,12 @@ public class Conta implements Serializable {
     }
 
     @Column(name = "digito_conta", nullable = false, length = 1)
-    public Integer getDvconta() {
-        return dvconta;
+    public Integer getDvConta() {
+        return dvConta;
     }
 
-    public void setDvconta(Integer dvconta) {
-        this.dvconta = dvconta;
+    public void setDvConta(Integer dvConta) {
+        this.dvConta = dvConta;
     }
 
     @Enumerated(EnumType.STRING)
