@@ -21,7 +21,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -43,6 +42,7 @@ public class Lancamento implements Serializable {
     private Date dataVencimento;
     private boolean baixa;
     private TipoLancamento tipoMov;
+    private Conta conta;
 
     @Id
     @GeneratedValue
@@ -143,6 +143,17 @@ public class Lancamento implements Serializable {
         this.tipoMov = tipoMov;
     }
 
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "conta_id", nullable = false)
+    public Conta getConta() {
+        return conta;
+    }
+
+    public void setConta(Conta conta) {
+        this.conta = conta;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -172,5 +183,9 @@ public class Lancamento implements Serializable {
 
         setSaldo(vlSaldo);
     }
+
+   public void recalculaSaldo(){
+       
+   }
 
 }

@@ -7,9 +7,12 @@ package br.com.gerenciapessoal.controller;
 
 import br.com.gerenciapessoal.enumeradores.TipoLancamento;
 import br.com.gerenciapessoal.model.Categoria;
+import br.com.gerenciapessoal.model.Conta;
 import br.com.gerenciapessoal.model.Lancamento;
 import br.com.gerenciapessoal.repository.Categorias;
+import br.com.gerenciapessoal.repository.Contas;
 import br.com.gerenciapessoal.repository.Usuarios;
+import br.com.gerenciapessoal.service.CadastroContaService;
 import br.com.gerenciapessoal.service.CadastroLancamentoService;
 import br.com.gerenciapessoal.util.jsf.FacesUtil;
 import java.io.Serializable;
@@ -34,10 +37,18 @@ public class CadastroLancamentoBean implements Serializable {
     private Categorias categorias;
 
     @Inject
+    private Contas contas;
+
+    @Inject
+    private CadastroContaService cadastroContaService;
+
+    @Inject
     private CadastroLancamentoService cadastroLancamentoService;
 
     private Lancamento lancamento;
     private List<Categoria> categoria;
+
+    private List<Conta> contaLista;
 
     private boolean disabledBotao = false;
 
@@ -50,14 +61,29 @@ public class CadastroLancamentoBean implements Serializable {
     public void inicialiazar() {
         if (FacesUtil.isNotPostback()) {
             categoria = categorias.categoriaList();
+            contaLista = contas.listaConta();
         }
     }
 
     public void Salvar() {
         this.lancamento = cadastroLancamentoService.salvar(lancamento);
 
+        atualizarSaldoConta();
+
         limpar();
         FacesUtil.addInfoMessage("Movimento incluso com sucesso!");
+    }
+
+    private void atualizarSaldoConta() {
+
+        BigDecimal saldoConta = lancamento.getValorLanca();
+
+        if (lancamento.getTipoMov().getTpES().equals("DESPESA")) {
+            lancamento.getConta().getSaldo().subtract(saldoConta);
+        } else {
+            lancamento.getConta().getSaldo().add(saldoConta);            
+        }
+        lancamento.setConta(cadastroContaService.salvarConta(lancamento.getConta()));
     }
 
     private void limpar() {
@@ -83,6 +109,7 @@ public class CadastroLancamentoBean implements Serializable {
         }
     }
 
+    @SuppressWarnings("null")
     public void onDateSelect() {
         if ((lancamento.getDataEmissao() != null) && (lancamento.getDataVencimento() != null)) {
             if (lancamento.getDataEmissao().after(lancamento.getDataVencimento())) {
@@ -105,6 +132,10 @@ public class CadastroLancamentoBean implements Serializable {
 
     public List<Categoria> getCategoria() {
         return categoria;
+    }
+
+    public List<Conta> getContaLista() {
+        return contaLista;
     }
 
     public boolean isDisabledBotao() {
