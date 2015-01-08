@@ -11,7 +11,6 @@ import br.com.gerenciapessoal.model.Conta;
 import br.com.gerenciapessoal.model.Lancamento;
 import br.com.gerenciapessoal.repository.Categorias;
 import br.com.gerenciapessoal.repository.Contas;
-import br.com.gerenciapessoal.repository.Usuarios;
 import br.com.gerenciapessoal.service.CadastroContaService;
 import br.com.gerenciapessoal.service.CadastroLancamentoService;
 import br.com.gerenciapessoal.util.jsf.FacesUtil;
@@ -79,9 +78,11 @@ public class CadastroLancamentoBean implements Serializable {
         BigDecimal saldoConta = lancamento.getValorLanca();
 
         if (lancamento.getTipoMov().getTpES().equals("DESPESA")) {
-            lancamento.getConta().getSaldo().subtract(saldoConta);
+            lancamento.getConta().setSaldo(lancamento.getConta().getSaldo().subtract(saldoConta));
         } else {
-            lancamento.getConta().getSaldo().add(saldoConta);            
+
+            saldoConta = saldoConta.add(lancamento.getConta().getSaldo());
+            lancamento.getConta().setSaldo(saldoConta);
         }
         lancamento.setConta(cadastroContaService.salvarConta(lancamento.getConta()));
     }

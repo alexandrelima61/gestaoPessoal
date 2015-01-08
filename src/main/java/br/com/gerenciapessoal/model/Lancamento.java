@@ -183,9 +183,4 @@ public class Lancamento implements Serializable {
 
         setSaldo(vlSaldo);
     }
-
-   public void recalculaSaldo(){
-       
-   }
-
 }
