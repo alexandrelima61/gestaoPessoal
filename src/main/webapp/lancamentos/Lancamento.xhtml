@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui">
+
+    <ui:define name="titulo">Lançamentos</ui:define>
+
+    <ui:define name="corpo">
+        <f:metadata>
+            <f:viewParam name="dymmy"/>
+            <f:event listener="#{cadastroLancamentoBean.inicialiazar}" 
+                     type="preRenderView"/>
+        </f:metadata>
+
+        <h1>Lançamentos</h1>
+
+        <h:form id="frmDespesas">
+            <p:messages id="msg" autoUpdate="true" closable="true"/>
+
+            <p:toolbar styleClass="toolbar" style="margin-top: 20px">
+                <p:toolbarGroup>
+                    <p:button value="Novo" icon="ui-icon-circle-plus"/>
+                    <p:commandButton value="Salvar" id="botaoSalvar" icon="ui-icon-disk"
+                                     action="#{cadastroLancamentoBean.Salvar}" update="@form" 
+                                     disabled="#{cadastroLancamentoBean.disabledBotao}"/>
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:button value="Pesquisa" icon="ui-icon-search"/>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:panelGrid columns="2" columnClasses="rotulo,campo" 
+                         id="cadContasPagar" styleClass="painel"
+                         style="margin-top: 15px;">  
+
+                <h:outputLabel value="Tipo Movimento" />
+                <h:panelGroup>
+                    <h:panelGroup>
+                        <p:commandButton icon="ui-icon-plus" value="Receita"
+                                         action="#{cadastroLancamentoBean.receita}" 
+                                         process="@this" update="tipoLancamento"/>
+
+                        <p:commandButton icon="ui-icon-minus" value="Despesa" 
+                                         action="#{cadastroLancamentoBean.despesa}"
+                                         process="@this" update="tipoLancamento"/>
+                    </h:panelGroup>
+                    <h:outputLabel value="#{cadastroLancamentoBean.tipoLancamento}"
+                                   id="tipoLancamento" 
+                                   style="margin-left: 15px;font-weight: bold"/>
+                </h:panelGroup>
+
+                <p:outputLabel value="Descrição" for="descricao"/>
+                <p:inputText id="descricao" size="60" maxlength="80"
+                             value="#{cadastroLancamentoBean.lancamento.descricao}"/>
+
+                <p:outputLabel value="Categoria" for="categoria"/>
+                <p:selectOneMenu id="categoria" 
+                                 value="#{cadastroLancamentoBean.lancamento.categoria}">
+                    <f:selectItem itemLabel="Selecione"/>
+                    <f:selectItems var="categoria"
+                                   value="#{cadastroLancamentoBean.categoria}"
+                                   itemValue="#{categoria}" itemLabel="#{categoria.descricao}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Data de Emissão" for="dataEmissao"/>
+                <p:calendar id="dataEmissao" pattern="dd/MM/yyyy" readonlyInput="true" 
+                            locale="pt" navigator="false"
+                            value="#{cadastroLancamentoBean.lancamento.dataEmissao}"> 
+
+                    <p:ajax event="dateSelect" listener="#{cadastroLancamentoBean.onDateSelect}"
+                            process="@this" update="botaoSalvar"/>
+                </p:calendar>
+
+                <p:outputLabel value="Data de Vencimento" for="dataVencimento"/>
+                <p:calendar id="dataVencimento" pattern="dd/MM/yyyy" readonlyInput="true" 
+                            locale="pt" navigator="false"
+                            value="#{cadastroLancamentoBean.lancamento.dataVencimento}">
+
+                    <p:ajax event="dateSelect" listener="#{cadastroLancamentoBean.onDateSelect}"
+                            process="@this" update="botaoSalvar"/>
+                </p:calendar>
+
+                <p:outputLabel value="Valor Total" for="valorTot"/>
+                <p:inputText id="valorTot" styleClass="moeda" size="20" style="margin-right: 8px;"
+                             value="#{cadastroLancamentoBean.lancamento.vlTotal}">                    
+                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+                    <p:ajax event="change" process="@this" update="saldo"
+                            listener="#{cadastroLancamentoBean.setSaldo}" />
+                </p:inputText>
+
+                <p:outputLabel value="Valor do Movimento" for="valorMov"/>
+                <h:panelGroup>
+                    <p:inputText id="valorMov" styleClass="moeda" size="20" style="margin-right: 8px;"
+                                 value="#{cadastroLancamentoBean.lancamento.valorLanca}">
+                        <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+
+                        <p:ajax event="change" process="@this" update="saldo"
+                                listener="#{cadastroLancamentoBean.setSaldo}" />
+                    </p:inputText>
+                    <p:selectBooleanCheckbox id="pago" value="#{cadastroLancamentoBean.lancamento.baixa}"/> 
+                    <p:outputLabel value="Valor Pago" for="pago"
+                                   style="margin-left: 10px;margin-bottom: 5px;" />
+
+                </h:panelGroup>
+
+                <p:outputLabel value="Saldo" for="saldo"/>
+                <p:inputText id="saldo" styleClass="moeda" size="20" style="margin-right: 8px;"
+                             value="#{cadastroLancamentoBean.lancamento.saldo}" disabled="true">
+                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+                </p:inputText>
+            </p:panelGrid>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

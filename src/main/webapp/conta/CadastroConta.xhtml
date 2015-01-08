@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui">
+
+    <ui:define name="titulo">#{cadastrarConta.editandoConta ? 'Editar Conta':'Cadastrar Conta'}</ui:define>
+
+    <ui:define name="corpo">
+        <f:metadata>
+            <f:viewParam name="dymmy"/>
+            <f:event listener="#{cadastrarConta.inicializaBanco}" 
+                     type="preRenderView"/>
+        </f:metadata>
+
+        <h:form id="frmCadConta">
+            <h1>#{cadastrarConta.editandoConta ? 'Editar Conta':'Cadastrar Conta'}</h1>
+
+            <p:messages autoUpdate="true" closable="true"/>
+
+            <p:toolbar styleClass="toolbar" style="margin-top: 20px">
+                <p:toolbarGroup>
+                    <p:button value="Novo" icon="ui-icon-circle-plus"/>
+                    <p:commandButton value="Salvar" id="botaoSalvar" icon="ui-icon-disk"
+                                     action="#{cadastrarConta.salvarConta}" update="@form" />
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:button value="Pesquisa" icon="ui-icon-search"
+                              />
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:panelGrid columns="2" columnClasses="rotulo,campo" 
+                         id="cadContasPagar" styleClass="painel"
+                         style="margin-top: 15px;">
+
+                <p:outputLabel value="Banco" for="banco"/>
+                <p:selectOneMenu id="banco" 
+                                 value="#{cadastrarConta.conta.banco}">
+                    <f:selectItem itemLabel="Selecione"/>
+                    <f:selectItems var="banco"
+                                   value="#{cadastrarConta.listaBancos}"
+                                   itemValue="#{banco}" itemLabel="#{banco.nome}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Agencia" for="agencia"/>
+                <p:inputText id="agencia" size="20" maxlength="5"
+                             value="#{cadastrarConta.conta.agc}"/>
+
+                <p:outputLabel value="Digito Agencia" for="digiAgencia"/>
+                <p:inputText id="digiAgencia" size="20" maxlength="1"
+                             value="#{cadastrarConta.conta.dvagc}"/>
+
+                <p:outputLabel value="Conta" for="conta"/>
+                <p:inputText id="conta" size="20" maxlength="6"
+                             value="#{cadastrarConta.conta.conta}"/>
+
+                <p:outputLabel value="Digito Conta" for="digiConta"/>
+                <p:inputText id="digiConta" size="20" maxlength="1"
+                             value="#{cadastrarConta.conta.dvconta}"/>
+
+                <p:outputLabel value="Tipo Conta" for="tpConta"/>
+                <p:selectOneMenu id="tpConta" value="#{cadastrarConta.conta.tipoConta}">
+                    <f:selectItem itemLabel="Selecione" />
+                    <f:selectItems value="#{cadastrarConta.tipoConta}" var="TipoConta"
+                                   itemValue="#{tipoConta}" itemLabel="#{tipoConta.descicao}" />
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Saldo" for="saldo"/>
+                <p:inputText id="saldo" size="20" maxlength="20"
+                             value="#{cadastrarConta.conta.saldo}" 
+                             styleClass="moeda" disabled="true"/>
+
+            </p:panelGrid>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

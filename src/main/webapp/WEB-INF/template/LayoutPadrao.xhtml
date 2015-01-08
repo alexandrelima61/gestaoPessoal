@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title><ui:insert name="titulo">Gestão Financeira Pessoal</ui:insert></title>
+        <h:outputStylesheet library="css" name="sistema.css" />
+        <h:outputScript library="js" name="jquery.maskMoney.js"/>
+    </h:head>
+
+    <h:body>
+        <p:ajaxStatus styleClass="ajax-status" onsuccess="configurarMoeda()">
+            <f:facet name="start">
+                <h:graphicImage library="images" name="loading.gif" />
+            </f:facet>
+            <f:facet name="complete">
+                <h:outputText value="" />
+            </f:facet>
+        </p:ajaxStatus>
+        <header>            
+            <div style="float: left">                
+                <h:link outcome="/Home">                    
+                    <h:graphicImage library="images" name="components.png" styleClass="iconLogo"/>                                            
+                </h:link>
+                <span class="linkLogo">
+                    Gestão Financeira Pessoal
+                </span> 
+            </div>
+            <div style="float:right;margin-right: 110px;">
+                <span style="float: left;right: 30px;line-height: 30px; margin-right: 60px;">
+                    Olá Usuário!
+                </span> 
+
+                <h:form style="display: inline-block;">
+                    <p:menubar styleClass="menu-sistema">
+                        <p:submenu label="Cadastros" icon="ui-icon-plusthick">
+                            <p:submenu label="Bancos" icon="ui-icon-calculator">
+                                <p:menuitem value="Novo Banco" icon="ui-icon-circle-plus"
+                                            outcome="/banco/CadastroBanco"/>
+                                <p:menuitem value="Pesquisar Banco" icon="ui-icon-search" 
+                                            outcome="/banco/PesquisaBanco"/>
+                            </p:submenu>
+                            <p:submenu label="Conta" icon="ui-icon-calculator">
+                                <p:menuitem value="Novo Conta" icon="ui-icon-circle-plus"
+                                            outcome="/conta/CadastroConta"/>
+                                <p:menuitem value="Pesquisa Conta" icon="ui-icon-search" />
+                            </p:submenu>
+
+                            <p:separator />
+
+                            <p:submenu label="Usuários" icon="ui-icon-person">
+                                <p:menuitem value="Novo Usuário" icon="ui-icon-circle-plus" 
+                                            outcome="/usuarios/CadastroUsuario"/>
+                                <p:menuitem value="Pesquisar Usuários" icon="ui-icon-search" />
+                            </p:submenu>
+                        </p:submenu>
+                        <p:menuitem value="Movimentação" icon="ui-icon-transferthick-e-w" 
+                                   outcome="/lancamentos/Lancamento" />
+                           
+                        <p:submenu label="Relatórios" icon="ui-icon-print">
+                            <p:menuitem value="Geral" icon="ui-icon-print" />
+                        </p:submenu>
+
+                        <p:menuitem value="Sair" icon="ui-icon-power" />
+                    </p:menubar>                    
+                </h:form>
+            </div>
+
+            <div style="clear: both;"></div>
+        </header>
+
+        <div id="conteudo">
+            <ui:insert name="corpo" />
+        </div>
+
+        <p:separator style="margin-top: 20px" />
+
+        <footer>&copy; Gestão Financeira Pessoal - <a href="#" target="_blank">J. Alexandre de Lima</a>
+        </footer>
+
+        <script>
+            PrimeFaces.locales['pt'] = {
+                closeText: 'Fechar',
+                prevText: 'Anterior',
+                nextText: 'Próximo',
+                currentText: 'Começo',
+                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 0,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Só Horas',
+                timeText: 'Tempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                ampm: false,
+                month: 'Mês',
+                week: 'Semana',
+                day: 'Dia',
+                allDayText: 'Todo o Dia'
+            };
+
+            function configurarMoeda() {
+                $(".moeda").maskMoney({decimal: ",", thousands: ".", allowZero: true});
+            }
+
+            $(document).ready(function () {
+                configurarMoeda();
+            });
+        </script>
+    </h:body>
+</html>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Pesquisar Banco</ui:define>
+
+    <ui:define name="corpo">        
+
+        <h:form id="frmPesqBanco">
+            <h1>Pesquisa Banco</h1>
+            <p:messages autoUpdate="true" closable="true"/>
+
+            <p:toolbar styleClass="toolbar">
+                <p:toolbarGroup>
+                    <p:commandButton value="Pesquisar" action="#{pesquisarBancos.pesquisar}"
+                                     icon="ui-icon-search" update="@form" />
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:button value="Novo" icon="ui-icon-circle-plus"
+                              outcome="/banco/CadastroBanco" />
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:panelGrid columns="2" columnClasses="rotulo,campo" 
+                         id="cadContasPagar" styleClass="painel"
+                         style="margin-top: 15px;">
+
+                <p:outputLabel value="Numero Banco" for="numbanco"/>
+                <p:inputText id="numbanco" size="4" maxlength="5"
+                             value="#{pesquisarBancos.filter.numBanco}"/>
+
+                <p:outputLabel value="Nome do Banco" for="nomBanco"/>
+                <p:inputText maxlength="80" size="60" id="nomBanco"
+                             value="#{pesquisarBancos.filter.nome}"/>
+
+
+                <p:outputLabel value="UF" for="uf" style="margin-right: 5px;"/>
+                <p:inputText id="uf" size="4" maxlength="2"
+                             value="#{pesquisarBancos.filter.uf}"/>
+
+
+                <p:outputLabel value="Estado" for="estado" style="margin-right: 5px;"/>
+                <p:inputText id="estado" size="60" maxlength="35"
+                             value="#{pesquisarBancos.filter.estado}"/>                    
+
+
+                <p:outputLabel value="Endereço" for="enderecoBanco" />
+                <p:inputText id="enderecoBanco" size="60" maxlength="80"
+                             value="#{pesquisarBancos.filter.endereco}"/>
+            </p:panelGrid>
+
+            <p:dataTable id="pesquisaBanco" paginator="true" paginatorAlwaysVisible="false"
+                         paginatorPosition="bottom" rows="20" var="banco" 
+                         value="#{pesquisarBancos.bancoFiltrado}"
+                         emptyMessage="Nenhum banco encontrado." style="margin-top: 20px;">
+
+                <p:column headerText="Numéro Banco" style="text-align: left;width: 100px">
+                    <h:outputText value="#{banco.numBanco}"/>
+                </p:column>
+
+                <p:column headerText="Nome Banco" style="text-align: left;width: 100px">
+                    <h:outputText value="#{banco.nome}"/>
+                </p:column>
+
+                <p:column headerText="UF" style="text-align: left;width: 100px">
+                    <h:outputText value="#{banco.uf}"/>
+                </p:column>
+
+                <p:column headerText="Estado" style="text-align: left;width: 100px">
+                    <h:outputText value="#{banco.estado}"/>
+                </p:column>
+
+                <p:column headerText="Endereço" style="text-align: left;width: 100px">
+                    <h:outputText value="#{banco.endereco}"/>
+                </p:column>
+
+                <p:column style="width: 100px; text-align: center">
+                    <p:button  icon="ui-icon-pencil" title="Editar" 
+                        outcome="/banco/CadastroBanco">
+                        <f:param name="banco" value="#{banco.id}"/>
+                    </p:button>
+
+                    <p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="confirmeExclusao.show()"
+                                     process="@this" update=":frmPesqBanco:confirmeExclusaoDialog">
+                        <f:setPropertyActionListener target="#{pesquisarBancos.bancoSelecionado}"
+                                                     value="#{banco}"/>
+
+                    </p:commandButton>
+
+                </p:column>
+
+            </p:dataTable>
+
+            <p:confirmDialog header="Exclusão de bancos"
+                             message="Tem certeza que deseja excluir o bando #{pesquisarBancos.bancoSelecionado.nome}?"
+                             widgetVar="confirmeExclusao" id="confirmeExclusaoDialog">
+                <p:button value="Não" onclick="confirmeExclusao.hide();
+                        return false;"/>
+                <p:commandButton value="Sim" oncomplete="confirmeExclusao.hide();"
+                                 action="#{pesquisarBancos.excluir}"
+                                 process="@this" update=":frmPesqBanco:pesquisaBanco"/>
+            </p:confirmDialog>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>
