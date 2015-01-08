@@ -19,14 +19,14 @@ import javax.inject.Named;
  */
 @Named
 @ViewScoped
-public class CadastroBanco implements Serializable {
+public class CadastroBancoBean implements Serializable {
 
     @Inject
     private CadastroBancoService cadastroBancoService;
 
     private Banco banco;
 
-    public CadastroBanco() {
+    public CadastroBancoBean() {
         limpar();
     }
 

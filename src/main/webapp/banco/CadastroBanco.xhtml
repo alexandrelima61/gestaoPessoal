@@ -7,13 +7,13 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:o="http://omnifaces.org/ui">
 
-    <ui:define name="titulo">#{cadastroBanco.editando ?'Editando Banco':'Cadastar Banco'}</ui:define>
+    <ui:define name="titulo">#{cadastroBancoBean.editando ?'Editando Banco':'Cadastar Banco'}</ui:define>
 
     <ui:define name="corpo">
-        <h1>#{cadastroBanco.editando ?'Editando Banco':'Cadastar Banco'}</h1>
+        <h1>#{cadastroBancoBean.editando ?'Editando Banco':'Cadastar Banco'}</h1>
 
         <f:metadata>
-            <o:viewParam name="banco" value="#{cadastroBanco.banco}"/>
+            <o:viewParam name="banco" value="#{cadastroBancoBean.banco}"/>
         </f:metadata>
 
         <h:form id="frmBanco">
@@ -23,7 +23,7 @@
                 <p:toolbarGroup>
                     <p:button value="Novo" icon="ui-icon-circle-plus"/>
                     <p:commandButton value="Salvar" id="botaoSalvar" icon="ui-icon-disk"
-                                     action="#{cadastroBanco.salvarBanco}" update="@form" />
+                                     action="#{cadastroBancoBean.salvarBanco}" update="@form" />
                 </p:toolbarGroup>
                 <p:toolbarGroup align="right">
                     <p:button value="Pesquisa" icon="ui-icon-search"
@@ -37,25 +37,25 @@
 
                 <p:outputLabel value="Numero Banco" for="numbanco"/>
                 <p:inputText id="numbanco" size="4" maxlength="5"
-                             value="#{cadastroBanco.banco.numBanco}"/>
+                             value="#{cadastroBancoBean.banco.numBanco}"/>
 
                 <p:outputLabel value="Nome do Banco" for="nomBanco"/>
                 <p:inputText maxlength="80" size="60" id="nomBanco"
-                             value="#{cadastroBanco.banco.nome}"/>
+                             value="#{cadastroBancoBean.banco.nome}"/>
 
 
                 <p:outputLabel value="UF" for="uf" style="margin-right: 5px;"/>
                 <p:inputText id="uf" size="4" maxlength="2"
-                             value="#{cadastroBanco.banco.uf}"/>
+                             value="#{cadastroBancoBean.banco.uf}"/>
 
                 <p:outputLabel value="Estado" for="estado" style="margin-right: 5px;"/>
                 <p:inputText id="estado" size="60" maxlength="35"
-                             value="#{cadastroBanco.banco.estado}"/>                    
+                             value="#{cadastroBancoBean.banco.estado}"/>                    
 
 
                 <p:outputLabel value="Endereço" for="enderecoBanco" />
                 <p:inputText id="enderecoBanco" size="60" maxlength="80"
-                             value="#{cadastroBanco.banco.endereco}"/>
+                             value="#{cadastroBancoBean.banco.endereco}"/>
             </p:panelGrid>
 
         </h:form>

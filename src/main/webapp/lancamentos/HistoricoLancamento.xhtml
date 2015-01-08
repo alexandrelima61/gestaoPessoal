@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Histórico</ui:define>
+
+    <ui:define name="corpo">
+        <f:metadata>
+            <f:viewParam name="dummy"/>
+            <f:event listener="#{cadastroLancamentoBean.inicialiazar}" type="preRenderView"/>
+        </f:metadata>
+
+        <h1>Histórico</h1>
+
+        <h:form id="frmHist">
+            <p:messages id="msg" autoUpdate="true" closable="true"/>
+
+            <p:toolbar styleClass="toolbar">
+                <p:toolbarGroup>
+                    <p:commandButton value="Histórico" 
+                                     icon="ui-icon-search" update="@form" />
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:button value="Novo" icon="ui-icon-circle-plus"
+                              outcome="/lancamentos/Lancamento" />
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:panelGrid columns="2" columnClasses="rotulo,campo" 
+                         id="cadContasPagar" styleClass="painel"
+                         style="margin-top: 15px;">
+                <p:outputLabel value="Cotna" for="histConta"/>
+                <p:selectOneMenu id="histConta" 
+                                 value="#{histLancamentoBean.lancementoFilter.conta}">
+                    <f:selectItem itemLabel="Selecione"/>
+                    <f:selectItems var="conta"
+                                   value="#{cadastroLancamentoBean.contaLista}"
+                                   itemValue="#{conta}" 
+                                   itemLabel="#{conta.agencia}/#{conta.conta}-#{conta.dvConta} #{conta.banco.nome}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Período" />
+                <h:panelGroup>
+                    <p:calendar size="10" pattern="dd/MM/yyyy"
+                                value="#{histLancamentoBean.lancementoFilter.emissao}" />
+                    a
+                    <p:calendar size="10" pattern="dd/MM/yyyy"
+                                value="#{histLancamentoBean.lancementoFilter.emissao}" />
+                </h:panelGroup>
+
+                <p:outputLabel value="Por dia" for="porDia"/>
+                <p:inputText id="porDia" value="#{histLancamentoBean.lancementoFilter.dia}" />
+
+            </p:panelGrid>
+
+            <p:dataTable id="histContaPedido" value="#{histLancamentoBean.lancamentosFiltrados}" var="lancamento"
+                         style="margin-top: 20px" emptyMessage="Não foi localizado histórico."
+                         rows="20" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+
+                <p:column headerText="Número" style="text-align: center; width: 100px">
+                    <h:outputText value="#{lancamento.conta.agencia}/#{lancamento.conta.dvAgencia}
+                                  #{lancamento.conta.conta}/#{lancamento.conta.dvConta}"/>
+                </p:column>
+
+                <p:column headerText="Emissão" style="text-align: center; width: 100px">
+                    <h:outputText value="#{lancamento.dataEmissao}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Vencimento" style="text-align: center; width: 100px">
+                    <h:outputText value="#{lancamento.dataVencimento}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Valor Total" style="text-align: center; width: 100px">
+                    <h:outputText value="#{lancamento.vlTotal}">
+                        <f:convertNumber type="currency"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Valor Movimentado" style="text-align: center; width: 100px">
+                    <h:outputText value="#{lancamento.valorLanca}">
+                        <f:convertNumber type="currency"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Saldo" style="text-align: center; width: 100px">
+                    <h:outputText value="#{lancamento.saldo}">
+                        <f:convertNumber type="currency"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Extornar" style="text-align: center; width: 100px">
+
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

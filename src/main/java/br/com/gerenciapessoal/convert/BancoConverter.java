@@ -6,9 +6,7 @@
 package br.com.gerenciapessoal.convert;
 
 import br.com.gerenciapessoal.model.Banco;
-import br.com.gerenciapessoal.model.Categoria;
 import br.com.gerenciapessoal.repository.Bancos;
-import br.com.gerenciapessoal.repository.Categorias;
 import br.com.gerenciapessoal.util.cdi.CDIServiceLocator;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;

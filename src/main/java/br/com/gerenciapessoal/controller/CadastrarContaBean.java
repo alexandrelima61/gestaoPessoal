@@ -25,7 +25,7 @@ import javax.inject.Named;
  */
 @Named
 @ViewScoped
-public class CadastrarConta implements Serializable {
+public class CadastrarContaBean implements Serializable {
     
     private Conta conta;
     @Inject
@@ -39,7 +39,7 @@ public class CadastrarConta implements Serializable {
     
     private List<Banco> listaBancos;
     
-    public CadastrarConta() {
+    public CadastrarContaBean() {
         limpar();
     }
     

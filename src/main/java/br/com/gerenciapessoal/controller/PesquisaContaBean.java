@@ -23,7 +23,7 @@ import javax.inject.Named;
  */
 @Named
 @ViewScoped
-public class PesquisaConta implements Serializable {
+public class PesquisaContaBean implements Serializable {
 
     @Inject
     private Contas contas;
@@ -38,7 +38,7 @@ public class PesquisaConta implements Serializable {
 
     private List<Banco> listaBanco;
 
-    public PesquisaConta() {
+    public PesquisaContaBean() {
         contaFilter = new ContaFilter();
     }
 
@@ -55,7 +55,7 @@ public class PesquisaConta implements Serializable {
         FacesUtil.addInfoMessage("A conta " + contaSelecionada.getAgencia() + "-"
                 + contaSelecionada.getDvConta() + "-"
                 + contaSelecionada.getBanco().getNome()
-                + ", foi excluida com suecsso");
+                + ", foi excluida com suecsso!");
     }
 
     public void pesquisarConta() {

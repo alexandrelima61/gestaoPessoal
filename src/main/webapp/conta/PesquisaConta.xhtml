@@ -11,7 +11,7 @@
         <f:metadata>
             <f:metadata>
                 <f:viewParam name="dymmy"/>
-                <f:event listener="#{pesquisaConta.inicializaBancoPes}" 
+                <f:event listener="#{pesquisaContaBean.inicializaBancoPes}" 
                          type="preRenderView"/>
             </f:metadata>
         </f:metadata>
@@ -22,7 +22,7 @@
 
             <p:toolbar styleClass="toolbar">
                 <p:toolbarGroup>
-                    <p:commandButton value="Pesquisar" action="#{pesquisaConta.pesquisarConta}"
+                    <p:commandButton value="Pesquisar" action="#{pesquisaContaBean.pesquisarConta}"
                                      icon="ui-icon-search" update="@form" />
                 </p:toolbarGroup>
                 <p:toolbarGroup align="right">
@@ -37,33 +37,33 @@
 
                 <p:outputLabel value="Banco" for="banco"/>
                 <p:selectOneMenu id="banco" 
-                                 value="#{pesquisaConta.contaFilter.banco}">
+                                 value="#{pesquisaContaBean.contaFilter.banco}">
                     <f:selectItem itemLabel="Selecione"/>
                     <f:selectItems var="banco"
-                                   value="#{pesquisaConta.listaBanco}"
+                                   value="#{pesquisaContaBean.listaBanco}"
                                    itemValue="#{banco}" itemLabel="#{banco.nome}"/>
                 </p:selectOneMenu>
 
                 <p:outputLabel value="Agencia" for="agencia"/>
                 <p:inputText id="agencia" size="20" maxlength="5"
-                             value="#{pesquisaConta.contaFilter.agencia}"/>
+                             value="#{pesquisaContaBean.contaFilter.agencia}"/>
 
                 <p:outputLabel value="Digito Agencia" for="digiAgencia"/>
                 <p:inputText id="digiAgencia" size="20" maxlength="1"
-                             value="#{pesquisaConta.contaFilter.dvAgencia}"/>
+                             value="#{pesquisaContaBean.contaFilter.dvAgencia}"/>
 
                 <p:outputLabel value="Conta" for="conta"/>
                 <p:inputText id="conta" size="20" maxlength="6"
-                             value="#{pesquisaConta.contaFilter.conta}"/>
+                             value="#{pesquisaContaBean.contaFilter.conta}"/>
 
                 <p:outputLabel value="Digito Conta" for="digiConta"/>
                 <p:inputText id="digiConta" size="20" maxlength="1"
-                             value="#{pesquisaConta.contaFilter.dvConta}"/>
+                             value="#{pesquisaContaBean.contaFilter.dvConta}"/>
 
                 <p:outputLabel value="Tipo Conta" for="tpConta"/>
-                <p:selectOneMenu id="tpConta" value="#{pesquisaConta.contaFilter.tipoConta}">
+                <p:selectOneMenu id="tpConta" value="#{pesquisaContaBean.contaFilter.tipoConta}">
                     <f:selectItem itemLabel="Selecione" />
-                    <f:selectItems value="#{cadastrarConta.tipoConta}" var="TipoConta"
+                    <f:selectItems value="#{cadastrarContaBean.tipoConta}" var="TipoConta"
                                    itemValue="#{tipoConta}" itemLabel="#{tipoConta.descicao}" />
                 </p:selectOneMenu>
 
@@ -71,7 +71,7 @@
 
             <p:dataTable id="pesquisaConta" paginator="true" paginatorAlwaysVisible="false"
                          paginatorPosition="bottom" rows="20" var="conta" 
-                         value="#{pesquisaConta.listaConta}"
+                         value="#{pesquisaContaBean.listaConta}"
                          emptyMessage="Nenhum conta encontrado." style="margin-top: 20px;">
 
                 <p:column headerText="Numero Banco" style="text-align: left;width: 40px">
@@ -108,7 +108,7 @@
                     <p:commandButton icon="ui-icon-trash" title="Excluir" 
                                      update=":frmPesqConta:confirmeExclusaoContaDialog"
                                      process="@this" oncomplete="confirmeExclusaoConta.show()">
-                        <f:setPropertyActionListener target="#{pesquisaConta.contaSelecionada}"
+                        <f:setPropertyActionListener target="#{pesquisaContaBean.contaSelecionada}"
                                                      value="#{conta}"/>
 
                     </p:commandButton>
@@ -119,14 +119,14 @@
 
             <p:confirmDialog header="Excluir Conta"
                              message="Tem certeza que deseja excluir a conta 
-                             #{pesquisaConta.contaSelecionada.conta} - #{pesquisaConta.contaSelecionada.dvConta} 
-                             #{pesquisaConta.contaSelecionada.banco.nome}?"
+                             #{pesquisaContaBean.contaSelecionada.conta} - #{pesquisaContaBean.contaSelecionada.dvConta} 
+                             #{pesquisaContaBean.contaSelecionada.banco.nome}?"
                              widgetVar="confirmeExclusaoConta" id="confirmeExclusaoContaDialog">
                 <p:button value="Não" onclick="confirmeExclusaoConta.hide();
                         return false;"/>
                 <p:commandButton value="Sim" oncomplete="confirmeExclusaoConta.hide();"                                 
                                  process="@this" update=":frmPesqConta:pesquisaConta"
-                                 action="#{pesquisaConta.ecluirConta}"/>
+                                 action="#{pesquisaContaBean.ecluirConta}"/>
             </p:confirmDialog>
         </h:form>
 

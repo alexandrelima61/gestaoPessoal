@@ -21,7 +21,7 @@ import javax.inject.Named;
  */
 @Named(value = "pesquisarBancos")
 @ViewScoped
-public class PesquisarBancos implements Serializable {
+public class PesquisarBancoBean implements Serializable {
 
     @Inject
     private Bancos bancos;
@@ -31,7 +31,7 @@ public class PesquisarBancos implements Serializable {
 
     private Banco bancoSelecionado;
 
-    public PesquisarBancos() {
+    public PesquisarBancoBean() {
         filter = new BancoFilter();
     }
 

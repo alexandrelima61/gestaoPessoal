@@ -7,17 +7,17 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:o="http://omnifaces.org/ui">
 
-    <ui:define name="titulo">#{cadastrarConta.editandoConta ? 'Editar Conta':'Cadastrar Conta'}</ui:define>
+    <ui:define name="titulo">#{cadastrarContaBean.editandoConta ? 'Editar Conta':'Cadastrar Conta'}</ui:define>
 
     <ui:define name="corpo">
         <f:metadata>
-            <f:viewParam name="conta" value="#{cadastrarConta.conta}"/>
-            <f:event listener="#{cadastrarConta.inicializaBanco}" 
+            <o:viewParam name="conta" value="#{cadastrarContaBean.conta}"/>
+            <f:event listener="#{cadastrarContaBean.inicializaBanco}" 
                      type="preRenderView"/>
         </f:metadata>
 
         <h:form id="frmCadConta">
-            <h1>#{cadastrarConta.editandoConta ? 'Editar Conta':'Cadastrar Conta'}</h1>
+            <h1>#{cadastrarContaBean.editandoConta ? 'Editar Conta':'Cadastrar Conta'}</h1>
 
             <p:messages autoUpdate="true" closable="true"/>
 
@@ -25,7 +25,7 @@
                 <p:toolbarGroup>
                     <p:button value="Novo" icon="ui-icon-circle-plus"/>
                     <p:commandButton value="Salvar" id="botaoSalvar" icon="ui-icon-disk"
-                                     action="#{cadastrarConta.salvarConta}" update="@form" />
+                                     action="#{cadastrarContaBean.salvarConta}" update="@form" />
                 </p:toolbarGroup>
                 <p:toolbarGroup align="right">
                     <p:button value="Pesquisa" icon="ui-icon-search"
@@ -39,40 +39,42 @@
 
                 <p:outputLabel value="Banco" for="banco"/>
                 <p:selectOneMenu id="banco" 
-                                 value="#{cadastrarConta.conta.banco}">
+                                 value="#{cadastrarContaBean.conta.banco}">
                     <f:selectItem itemLabel="Selecione"/>
                     <f:selectItems var="banco"
-                                   value="#{cadastrarConta.listaBancos}"
+                                   value="#{cadastrarContaBean.listaBancos}"
                                    itemValue="#{banco}" itemLabel="#{banco.nome}"/>
                 </p:selectOneMenu>
 
                 <p:outputLabel value="Agencia" for="agencia"/>
                 <p:inputText id="agencia" size="20" maxlength="5"
-                             value="#{cadastrarConta.conta.agencia}"/>
+                             value="#{cadastrarContaBean.conta.agencia}"/>
 
                 <p:outputLabel value="Digito Agencia" for="digiAgencia"/>
                 <p:inputText id="digiAgencia" size="20" maxlength="1"
-                             value="#{cadastrarConta.conta.dvAgencia}"/>
+                             value="#{cadastrarContaBean.conta.dvAgencia}"/>
 
                 <p:outputLabel value="Conta" for="conta"/>
                 <p:inputText id="conta" size="20" maxlength="6"
-                             value="#{cadastrarConta.conta.conta}"/>
+                             value="#{cadastrarContaBean.conta.conta}"/>
 
                 <p:outputLabel value="Digito Conta" for="digiConta"/>
                 <p:inputText id="digiConta" size="20" maxlength="1"
-                             value="#{cadastrarConta.conta.dvConta}"/>
+                             value="#{cadastrarContaBean.conta.dvConta}"/>
 
                 <p:outputLabel value="Tipo Conta" for="tpConta"/>
-                <p:selectOneMenu id="tpConta" value="#{cadastrarConta.conta.tipoConta}">
+                <p:selectOneMenu id="tpConta" value="#{cadastrarContaBean.conta.tipoConta}">
                     <f:selectItem itemLabel="Selecione" />
-                    <f:selectItems value="#{cadastrarConta.tipoConta}" var="TipoConta"
+                    <f:selectItems value="#{cadastrarContaBean.tipoConta}" var="TipoConta"
                                    itemValue="#{tipoConta}" itemLabel="#{tipoConta.descicao}" />
                 </p:selectOneMenu>
 
                 <p:outputLabel value="Saldo" for="saldo"/>
                 <p:inputText id="saldo" size="20" maxlength="20"
-                             value="#{cadastrarConta.conta.saldo}" 
-                             styleClass="moeda" disabled="true"/>
+                             value="#{cadastrarContaBean.conta.saldo}" 
+                             styleClass="moeda" disabled="true">
+                    <f:convertNumber type="currency"/>
+                </p:inputText>
 
             </p:panelGrid>
 
