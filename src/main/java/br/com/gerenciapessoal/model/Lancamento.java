@@ -43,7 +43,6 @@ public class Lancamento implements Serializable {
     private Date dataVencimento;
     private boolean baixa;
     private TipoLancamento tipoMov;
-    private Usuario usuario;
 
     @Id
     @GeneratedValue
@@ -142,16 +141,6 @@ public class Lancamento implements Serializable {
 
     public void setTipoMov(TipoLancamento tipoMov) {
         this.tipoMov = tipoMov;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 
     @Override

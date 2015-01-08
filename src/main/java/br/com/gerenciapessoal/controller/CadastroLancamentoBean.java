@@ -36,9 +36,6 @@ public class CadastroLancamentoBean implements Serializable {
     @Inject
     private CadastroLancamentoService cadastroLancamentoService;
 
-    @Inject
-    private Usuarios usuarios;
-
     private Lancamento lancamento;
     private List<Categoria> categoria;
 
@@ -57,7 +54,6 @@ public class CadastroLancamentoBean implements Serializable {
     }
 
     public void Salvar() {
-        lancamento.setUsuario(usuarios.usuario());
         this.lancamento = cadastroLancamentoService.salvar(lancamento);
 
         limpar();
