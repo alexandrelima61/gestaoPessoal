@@ -157,4 +157,7 @@ public class CadastroLancamentoBean implements Serializable {
         this.tipoLancamento = tipoLancamento;
     }
 
+    public boolean isEditandoLancamento() {
+        return lancamento.getId() != null;
+    }
 }
