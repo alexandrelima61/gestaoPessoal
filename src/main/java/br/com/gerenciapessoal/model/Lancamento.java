@@ -6,6 +6,7 @@
 package br.com.gerenciapessoal.model;
 
 import br.com.gerenciapessoal.enumeradores.TipoLancamento;
+import java.beans.Transient;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -178,9 +179,11 @@ public class Lancamento implements Serializable {
 
     public void valorizaSaldo() {
         BigDecimal vlSaldo = BigDecimal.ZERO;
-
-        vlSaldo = vlSaldo.add(this.getVlTotal().subtract(this.getValorLanca()));
-
+        if (this.getTipoMov().getTpES().equals("DESPESA")) {
+            vlSaldo = vlSaldo.add(this.getVlTotal().subtract(this.getValorLanca()));
+        } else {
+            vlSaldo = vlSaldo.add(this.getValorLanca().subtract(this.getVlTotal()));
+        }
         setSaldo(vlSaldo);
     }
 
@@ -204,6 +207,14 @@ public class Lancamento implements Serializable {
                 //Caso receita adciono ao saldo da conta
                 this.getConta().setSaldo(saldoConta.add(this.getConta().getSaldo()));
             }
+        }
+    }
+
+    public String baixaRealizada() {
+        if (this.isBaixa()) {
+            return "Ok";
+        } else {
+            return "Pendente";
         }
     }
 }

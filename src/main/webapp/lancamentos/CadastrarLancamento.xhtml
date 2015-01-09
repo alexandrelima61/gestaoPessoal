@@ -43,11 +43,13 @@
                     <h:panelGroup>
                         <p:commandButton icon="ui-icon-plus" value="Receita"
                                          action="#{cadastroLancamentoBean.receita}" 
-                                         process="@this" update="tipoLancamento"/>
+                                         process="@this"
+                                         update="tipoLancamento,valorTot,valorMov,saldo"/>
 
                         <p:commandButton icon="ui-icon-minus" value="Despesa" 
                                          action="#{cadastroLancamentoBean.despesa}"
-                                         process="@this" update="tipoLancamento"/>
+                                         process="@this"
+                                         update="tipoLancamento,valorTot,valorMov,saldo"/>
                     </h:panelGroup>
                     <h:outputLabel value="#{cadastroLancamentoBean.tipoLancamento}"
                                    id="tipoLancamento" 

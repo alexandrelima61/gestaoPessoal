@@ -82,18 +82,33 @@ public class CadastroLancamentoBean implements Serializable {
     public void receita() {
         tipoLancamento = "Receita";
         lancamento.setTipoMov(TipoLancamento.R);
+        if (((lancamento.getValorLanca() != new BigDecimal(BigInteger.ZERO) && (lancamento.getValorLanca() != null)))
+                && ((lancamento.getVlTotal() != new BigDecimal(BigInteger.ZERO) && (lancamento.getVlTotal() != null)))) {
+            lancamento.valorizaSaldo();
+        }
     }
 
     public void despesa() {
-        tipoLancamento = "Dispesa";
-        lancamento.setTipoMov(TipoLancamento.D);
+        try {
+            tipoLancamento = "Dispesa";
+            lancamento.setTipoMov(TipoLancamento.D);
+            if (((lancamento.getValorLanca() != new BigDecimal(BigInteger.ZERO) && (lancamento.getValorLanca() != null)))
+                    && ((lancamento.getVlTotal() != new BigDecimal(BigInteger.ZERO) && (lancamento.getVlTotal() != null)))) {
+                lancamento.valorizaSaldo();
+            }
+        } catch (NullPointerException npe) {
+        }
     }
 
     @SuppressWarnings("null")
     public void setSaldo() {
-        if (((lancamento.getValorLanca() != new BigDecimal(BigInteger.ZERO) && (lancamento.getValorLanca() != null)))
-                && ((lancamento.getVlTotal() != new BigDecimal(BigInteger.ZERO) && (lancamento.getVlTotal() != null)))) {
-            lancamento.valorizaSaldo();
+        try {
+            if (((lancamento.getValorLanca() != new BigDecimal(BigInteger.ZERO) && (lancamento.getValorLanca() != null)))
+                    && ((lancamento.getVlTotal() != new BigDecimal(BigInteger.ZERO) && (lancamento.getVlTotal() != null)))) {
+                lancamento.valorizaSaldo();
+            }
+        } catch (NullPointerException npe) {
+            FacesUtil.addErrorMessage("Você deve selecionar uma conta!");
         }
     }
 

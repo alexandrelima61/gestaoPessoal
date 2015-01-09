@@ -65,17 +65,26 @@
                                   style="#{lancamento.tipoMov.tpES.equals('DESPESA') ?'color:red;':'color:blue;'}"/>
                 </p:column>
 
-                <p:column headerText="Emissão" style="text-align: center; width: 100px">
+                <p:column headerText="Data de Emissão" style="text-align: center; width: 100px">
                     <h:outputText value="#{lancamento.dataEmissao}"
                                   style="#{lancamento.tipoMov.tpES.equals('DESPESA') ?'color:red;':'color:blue;'}">
                         <f:convertDateTime pattern="dd/MM/yyyy"/>
                     </h:outputText>
                 </p:column>
 
-                <p:column headerText="Baixa" style="text-align: center; width: 100px">
+                <p:column headerText="Data da Baixa" style="text-align: center; width: 100px">
                     <h:outputText value="#{lancamento.dataVencimento}"
                                   style="#{lancamento.tipoMov.tpES.equals('DESPESA') ?'color:red;':'color:blue;'}">
                         <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+
+
+
+                <p:column headerText="Saldo" style="text-align: right; width: 100px">
+                    <h:outputText value="#{lancamento.saldo}"
+                                  style="#{lancamento.tipoMov.tpES.equals('DESPESA') ?'color:red;':'color:blue;'}">
+                        <f:convertNumber type="currency"/>
                     </h:outputText>
                 </p:column>
 
@@ -92,14 +101,7 @@
                     </h:outputText>
                 </p:column>
 
-                <p:column headerText="Saldo" style="text-align: right; width: 100px">
-                    <h:outputText value="#{lancamento.saldo}"
-                                  style="#{lancamento.tipoMov.tpES.equals('DESPESA') ?'color:red;':'color:blue;'}">
-                        <f:convertNumber type="currency"/>
-                    </h:outputText>
-                </p:column>
-
-                <p:column style="text-align: center; width: 100px">
+                <p:column style="text-align: center; width: 100px" headerText="Editar/Extornar">
                     <p:column style="width: 100px; text-align: center">
                         <p:button  icon="ui-icon-pencil" title="Editar"
                                    outcome="/lancamentos/CadastrarLancamento">
@@ -116,6 +118,19 @@
 
                     </p:column>
                 </p:column>
+
+                <p:columnGroup type="footer">
+                    <p:row>
+                        <p:column colspan="6" footerText="Saldo em Conta" style="text-align: right" />
+                        <p:column style="text-align: right">
+                            <f:facet name="footer">
+                                <h:outputText value="#{histLancamentoBean.saldoConta}">
+                                    <f:convertNumber type="currency"/>
+                                </h:outputText>
+                            </f:facet>
+                        </p:column>
+                    </p:row>
+                </p:columnGroup>
             </p:dataTable>
 
             <p:confirmDialog header="Extorna movimento"
@@ -123,7 +138,7 @@
                              (#{histLancamentoBean.lancSelecionado.descricao.trim()})?" 
                              widgetVar="confirmExtorno" id="confirmExtornoDialog">
                 <p:button value="Não" onclick="confirmExtorno.hide();
-                    return false;"/>
+                        return false;"/>
                 <p:commandButton value="Sim" oncomplete="confirmExtorno.hide();"                                 
                                  process="@this" update=":frmHist:histContaPedido"
                                  action="#{histLancamentoBean.extornaLanca}"/>
