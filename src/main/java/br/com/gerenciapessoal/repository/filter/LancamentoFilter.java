@@ -16,7 +16,8 @@ import java.util.Date;
 public class LancamentoFilter implements Serializable {
 
     private Conta conta;
-    private Date emissao;
+    private Date emissaode;
+    private Date emissaoate;
     private Integer dia;
 
     public Conta getConta() {
@@ -27,12 +28,20 @@ public class LancamentoFilter implements Serializable {
         this.conta = conta;
     }
 
-    public Date getEmissao() {
-        return emissao;
+    public Date getEmissaode() {
+        return emissaode;
     }
 
-    public void setEmissao(Date emissao) {
-        this.emissao = emissao;
+    public void setEmissaode(Date emissaode) {
+        this.emissaode = emissaode;
+    }
+
+    public Date getEmissaoate() {
+        return emissaoate;
+    }
+
+    public void setEmissaoate(Date emissaoate) {
+        this.emissaoate = emissaoate;
     }
 
     public Integer getDia() {

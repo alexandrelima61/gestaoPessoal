@@ -6,9 +6,16 @@
 package br.com.gerenciapessoal.repository;
 
 import br.com.gerenciapessoal.model.Lancamento;
+import br.com.gerenciapessoal.repository.filter.LancamentoFilter;
+import br.com.gerenciapessoal.util.service.NegocioException;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -21,5 +28,29 @@ public class Lancamentos implements Serializable {
 
     public Lancamento gardar(Lancamento lancamento) {
         return manager.merge(lancamento);
+    }
+
+    public List<Lancamento> lancamentoFiltrados(LancamentoFilter filterLanc) {
+        Session session = manager.unwrap(Session.class);
+        Criteria criteria = session.createCriteria(Lancamento.class)
+                .createAlias("conta", "c");
+
+        if (filterLanc.getConta() != null) {
+            criteria.add(Restrictions.eq("c.id", filterLanc.getConta().getId()));
+
+            if (filterLanc.getEmissaode() != null) {
+                criteria.add(Restrictions.ge("dataEmissao", filterLanc.getEmissaode()));
+            }
+
+            if (filterLanc.getEmissaoate() != null) {
+                criteria.add(Restrictions.le("dataEmissao", filterLanc.getEmissaoate()));
+            }
+
+        } else {
+            throw new NegocioException("Você deve selecionar uma conta\n"
+                    + "antes de proceguir!");
+        }
+
+        return criteria.addOrder(Order.desc("id")).list();
     }
 }

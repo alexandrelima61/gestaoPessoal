@@ -6,11 +6,14 @@
 package br.com.gerenciapessoal.controller;
 
 import br.com.gerenciapessoal.model.Lancamento;
+import br.com.gerenciapessoal.repository.Lancamentos;
 import br.com.gerenciapessoal.repository.filter.LancamentoFilter;
+import br.com.gerenciapessoal.util.service.NegocioException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -21,14 +24,23 @@ import javax.inject.Named;
 @ViewScoped
 public class HistLancamentoBean implements Serializable {
 
-    private LancamentoFilter lancementoFilter;
+    @Inject
+    private Lancamentos lancamentos;
+
+    private LancamentoFilter filterLanc;
 
     private Lancamento lancamentoSelecionado;
     private List<Lancamento> lancamentosFiltrados;
 
     public HistLancamentoBean() {
-        lancementoFilter = new LancamentoFilter();
+        filterLanc = new LancamentoFilter();
         lancamentosFiltrados = new ArrayList<>();
+    }
+
+    public void consultaHist() {
+
+        lancamentosFiltrados = lancamentos.lancamentoFiltrados(filterLanc);
+
     }
 
     public Lancamento getLancamentoSelecionado() {
@@ -39,8 +51,8 @@ public class HistLancamentoBean implements Serializable {
         this.lancamentoSelecionado = lancamentoSelecionado;
     }
 
-    public LancamentoFilter getLancementoFilter() {
-        return lancementoFilter;
+    public LancamentoFilter getFilterLanc() {
+        return filterLanc;
     }
 
     public List<Lancamento> getLancamentosFiltrados() {

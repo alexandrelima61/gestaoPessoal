@@ -114,7 +114,7 @@ public class CadastroLancamentoBean implements Serializable {
     public void onDateSelect() {
         if ((lancamento.getDataEmissao() != null) && (lancamento.getDataVencimento() != null)) {
             if (lancamento.getDataEmissao().after(lancamento.getDataVencimento())) {
-                FacesUtil.addErrorMessage("A data de emissão, deve ser menor que a data de vencimento!");
+                FacesUtil.addErrorMessage("A data de emissão, deve ser menor ou igual que a data da baixa!");
 
                 disabledBotao = true;
             } else {

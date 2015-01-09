@@ -60,9 +60,13 @@
                                 <p:menuitem value="Pesquisar Usuários" icon="ui-icon-search" />
                             </p:submenu>
                         </p:submenu>
-                        <p:menuitem value="Movimentação" icon="ui-icon-transferthick-e-w" 
-                                   outcome="/lancamentos/Lancamento" />
-                           
+                        <p:submenu label="Lançamentos" icon="ui-icon-suitcase">
+                            <p:menuitem value="Movimentação" icon="ui-icon-transferthick-e-w" 
+                                        outcome="/lancamentos/Lancamento" />
+                            <p:separator/>
+                            <p:menuitem value="Histórico" icon="ui-icon-document"
+                                        outcome="/lancamentos/HistoricoLancamento"/>
+                        </p:submenu>
                         <p:submenu label="Relatórios" icon="ui-icon-print">
                             <p:menuitem value="Geral" icon="ui-icon-print" />
                         </p:submenu>

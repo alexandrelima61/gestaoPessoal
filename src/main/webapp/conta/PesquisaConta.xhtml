@@ -99,6 +99,12 @@
                     <h:outputText value="#{conta.tipoConta.descicao}"/>
                 </p:column>
 
+                <p:column headerText="Saldo" style="text-align: left;width: 100px">
+                    <h:outputText value="#{conta.saldo}">
+                        <f:convertNumber type="currency"/>
+                    </h:outputText>
+                </p:column>
+
                 <p:column style="width: 100px; text-align: center">
                     <p:button  icon="ui-icon-pencil" title="Editar" 
                                outcome="/conta/CadastroConta">
