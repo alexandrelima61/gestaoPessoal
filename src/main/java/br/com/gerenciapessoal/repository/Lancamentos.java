@@ -68,7 +68,7 @@ public class Lancamentos implements Serializable {
         }
     }
 
-    private Lancamento porId(Long id) {
+    public Lancamento porId(Long id) {
         return manager.find(Lancamento.class, id);
     }
 }

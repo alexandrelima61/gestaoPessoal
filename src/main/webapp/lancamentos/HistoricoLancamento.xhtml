@@ -26,7 +26,7 @@
                 </p:toolbarGroup>
                 <p:toolbarGroup align="right">
                     <p:button value="Novo" icon="ui-icon-circle-plus"
-                              outcome="/lancamentos/Lancamento" />
+                              outcome="/lancamentos/CadastrarLancamento" />
                 </p:toolbarGroup>
             </p:toolbar>
 
@@ -101,7 +101,9 @@
 
                 <p:column style="text-align: center; width: 100px">
                     <p:column style="width: 100px; text-align: center">
-                        <p:button  icon="ui-icon-pencil" title="Editar">
+                        <p:button  icon="ui-icon-pencil" title="Editar"
+                                   outcome="/lancamentos/CadastrarLancamento">
+                            <f:param name="lancamento" value="#{lancamento.id}"/>
                         </p:button>
 
                         <p:commandButton icon="ui-icon-arrowreturnthick-1-w" title="Extornar" 
@@ -121,7 +123,7 @@
                              (#{histLancamentoBean.lancSelecionado.descricao.trim()})?" 
                              widgetVar="confirmExtorno" id="confirmExtornoDialog">
                 <p:button value="Não" onclick="confirmExtorno.hide();
-                        return false;"/>
+                    return false;"/>
                 <p:commandButton value="Sim" oncomplete="confirmExtorno.hide();"                                 
                                  process="@this" update=":frmHist:histContaPedido"
                                  action="#{histLancamentoBean.extornaLanca}"/>

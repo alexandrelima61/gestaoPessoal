@@ -11,7 +11,7 @@
 
     <ui:define name="corpo">
         <f:metadata>
-            <f:viewParam name="dymmy"/>
+            <f:viewParam name="lancamento" value="#{cadastroLancamentoBean.lancamento}"/>
             <f:event listener="#{cadastroLancamentoBean.inicialiazar}" 
                      type="preRenderView"/>
         </f:metadata>
