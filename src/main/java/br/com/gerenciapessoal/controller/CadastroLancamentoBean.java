@@ -67,24 +67,11 @@ public class CadastroLancamentoBean implements Serializable {
     public void Salvar() {
         this.lancamento = cadastroLancamentoService.salvar(lancamento);
 
-        atualizarSaldoConta();
+        lancamento.atualizarSaldoConta(false);
+        lancamento.setConta(cadastroContaService.salvarConta(lancamento.getConta()));
 
         limpar();
         FacesUtil.addInfoMessage("Movimento incluso com sucesso!");
-    }
-
-    private void atualizarSaldoConta() {
-
-        BigDecimal saldoConta = lancamento.getValorLanca();
-
-        if (lancamento.getTipoMov().getTpES().equals("DESPESA")) {
-            lancamento.getConta().setSaldo(lancamento.getConta().getSaldo().subtract(saldoConta));
-        } else {
-
-            saldoConta = saldoConta.add(lancamento.getConta().getSaldo());
-            lancamento.getConta().setSaldo(saldoConta);
-        }
-        lancamento.setConta(cadastroContaService.salvarConta(lancamento.getConta()));
     }
 
     private void limpar() {

@@ -183,4 +183,27 @@ public class Lancamento implements Serializable {
 
         setSaldo(vlSaldo);
     }
+
+    public void atualizarSaldoConta(boolean lExtorno) {
+        BigDecimal saldoConta = this.getValorLanca();
+
+        if (lExtorno) {
+            if (this.getTipoMov().getTpES().equals("DESPESA")) {
+                //Caso extorno devolvo saldo para a conta
+                this.getConta().setSaldo(saldoConta.add(this.getConta().getSaldo()));
+            } else {
+                //Caso extorno devolvo saldo para a conta
+                this.getConta().setSaldo(this.getConta().getSaldo().subtract(saldoConta));
+
+            }
+        } else {
+            if (this.getTipoMov().getTpES().equals("DESPESA")) {
+                //Caso despesa subtraio do saldo da conta
+                this.getConta().setSaldo(this.getConta().getSaldo().subtract(saldoConta));
+            } else {
+                //Caso receita adciono ao saldo da conta
+                this.getConta().setSaldo(saldoConta.add(this.getConta().getSaldo()));
+            }
+        }
+    }
 }

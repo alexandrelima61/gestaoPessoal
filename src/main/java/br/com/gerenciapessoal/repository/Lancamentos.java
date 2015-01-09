@@ -7,11 +7,13 @@ package br.com.gerenciapessoal.repository;
 
 import br.com.gerenciapessoal.model.Lancamento;
 import br.com.gerenciapessoal.repository.filter.LancamentoFilter;
+import br.com.gerenciapessoal.util.jpa.Transactional;
 import br.com.gerenciapessoal.util.service.NegocioException;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
@@ -52,5 +54,21 @@ public class Lancamentos implements Serializable {
         }
 
         return criteria.addOrder(Order.desc("id")).list();
+    }
+
+    @Transactional
+    public void remover(Lancamento lancamento) {
+        try {
+            lancamento = porId(lancamento.getId());
+
+            manager.remove(lancamento);
+            manager.flush();
+        } catch (PersistenceException e) {
+            throw new NegocioException("Este lançamento não pode ser extornado");
+        }
+    }
+
+    private Lancamento porId(Long id) {
+        return manager.find(Lancamento.class, id);
     }
 }

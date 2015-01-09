@@ -99,21 +99,34 @@
                     </h:outputText>
                 </p:column>
 
-                <p:column headerText="Extornar" style="text-align: center; width: 100px">
+                <p:column style="text-align: center; width: 100px">
                     <p:column style="width: 100px; text-align: center">
                         <p:button  icon="ui-icon-pencil" title="Editar">
                         </p:button>
 
-                        <p:commandButton icon="ui-icon-arrowreturnthick-1-w" title="Excluir" 
-                                         update=":frmHist" value="Extornar"
-                                         process="@this" oncomplete="confirmeExclusaoConta.show()">
+                        <p:commandButton icon="ui-icon-arrowreturnthick-1-w" title="Extornar" 
+                                         update=":frmHist:confirmExtornoDialog" process="@this"
+                                         oncomplete="confirmExtorno.show()">
+                            <f:setPropertyActionListener target="#{histLancamentoBean.lancSelecionado}"
+                                                         value="#{lancamento}"/>
 
                         </p:commandButton>
 
                     </p:column>
                 </p:column>
-
             </p:dataTable>
+
+            <p:confirmDialog header="Extorna movimento"
+                             message="Tem certeza que deseja estornar este lançamento
+                             (#{histLancamentoBean.lancSelecionado.descricao.trim()})?" 
+                             widgetVar="confirmExtorno" id="confirmExtornoDialog">
+                <p:button value="Não" onclick="confirmExtorno.hide();
+                        return false;"/>
+                <p:commandButton value="Sim" oncomplete="confirmExtorno.hide();"                                 
+                                 process="@this" update=":frmHist:histContaPedido"
+                                 action="#{histLancamentoBean.extornaLanca}"/>
+            </p:confirmDialog>
+
         </h:form>
     </ui:define>
 
