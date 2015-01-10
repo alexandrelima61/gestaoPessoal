@@ -6,6 +6,7 @@
 package br.com.gerenciapessoal.repository;
 
 import br.com.gerenciapessoal.model.Usuario;
+import br.com.gerenciapessoal.security.Seguranca;
 import java.io.Serializable;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -20,8 +21,14 @@ public class Usuarios implements Serializable {
     @Inject
     private EntityManager manager;
 
+    private Seguranca s;
+
+    public Usuarios() {
+        s = new Seguranca();
+    }
+
     public Usuario usuario() {
-        return manager.find(Usuario.class, 1L);
+        return manager.find(Usuario.class, s.getIdUsuario());
     }
 
     @SuppressWarnings("JPQLValidation")
@@ -30,7 +37,7 @@ public class Usuarios implements Serializable {
         try {
             usuario = this.manager.createQuery("from Usuario where lower(email) = :email", Usuario.class)
                     .setParameter("email", email.toLowerCase()).getSingleResult();
-            
+
         } catch (NoResultException e) {
             //nenhum usuário encontradom com e e-mail informado.
             System.out.print("nenhum usuário encontradom com e e-mail informado.");

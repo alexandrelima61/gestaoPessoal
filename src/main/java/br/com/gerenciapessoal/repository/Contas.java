@@ -8,6 +8,7 @@ package br.com.gerenciapessoal.repository;
 import br.com.gerenciapessoal.model.Conta;
 import br.com.gerenciapessoal.model.Usuario;
 import br.com.gerenciapessoal.repository.filter.ContaFilter;
+import br.com.gerenciapessoal.security.Seguranca;
 import br.com.gerenciapessoal.util.jpa.Transactional;
 import br.com.gerenciapessoal.util.service.NegocioException;
 import java.io.Serializable;
@@ -17,7 +18,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
@@ -31,6 +31,16 @@ public class Contas implements Serializable {
 
     @Inject
     private EntityManager manager;
+        
+    public Seguranca s;
+    private final Long userId;
+
+    public Contas() {
+        s = new Seguranca();
+        this.userId = s.getIdUsuario();
+    }
+    
+    
 
     public Conta porId(Long id) {
         return manager.find(Conta.class, id);
@@ -43,7 +53,7 @@ public class Contas implements Serializable {
     @SuppressWarnings("JPQLValidation")
     public List<Conta> listaConta() {
         try {
-            Usuario u = manager.find(Usuario.class, 1L);
+            Usuario u = manager.find(Usuario.class, this.userId);
 
             return manager.createQuery("from Conta where usuario_id = :usuario", Conta.class)
                     .setParameter("usuario", u.getId())
@@ -60,7 +70,7 @@ public class Contas implements Serializable {
                 .createAlias("banco", "b")
                 .createAlias("usuario", "u");
 
-        Usuario u = manager.find(Usuario.class, 1L);
+        Usuario u = manager.find(Usuario.class, this.userId);
 
         criteria.add(Restrictions.eq("u.id", u.getId()));
 

@@ -9,7 +9,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.jaas.JaasAuthenticationToken;
 
 /**
  *
@@ -31,15 +30,26 @@ public class Seguranca {
         return nome;
     }
 
+    public Long getIdUsuario() {
+        Long id = null;
+
+        UsuarioSistema usuarioLogado = getNomeUsuarioLogado();
+
+        if (usuarioLogado != null) {
+            id = usuarioLogado.getUsuario().getId();
+        }
+
+        return id;
+    }
+
     private UsuarioSistema getNomeUsuarioLogado() {
         UsuarioSistema usuario = null;
 
-        UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken)
-                FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
+        UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
 
         if (auth != null && auth.getPrincipal() != null) {
             usuario = (UsuarioSistema) auth.getPrincipal();
-        }        
+        }
 
         return usuario;
     }
