@@ -9,6 +9,7 @@ import br.com.gerenciapessoal.model.Conta;
 import br.com.gerenciapessoal.model.Usuario;
 import br.com.gerenciapessoal.repository.filter.ContaFilter;
 import br.com.gerenciapessoal.security.Seguranca;
+import br.com.gerenciapessoal.util.cdi.CDIServiceLocator;
 import br.com.gerenciapessoal.util.jpa.Transactional;
 import br.com.gerenciapessoal.util.service.NegocioException;
 import java.io.Serializable;
@@ -36,7 +37,7 @@ public class Contas implements Serializable {
     private final Long userId;
 
     public Contas() {
-        s = new Seguranca();
+        s = CDIServiceLocator.getBean(Seguranca.class);
         this.userId = s.getIdUsuario();
     }
     
